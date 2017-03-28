@@ -7,10 +7,10 @@ rename <- function(){
 
 loadWeatherByCity <- function(){
   #读取城市列表，调用爬虫函数，合并数据保存到一个文件
-  filepath = "G:\\aboutMe\\Assignment\\DataMiningAssignment\\prepareJob\\"
-  city <- read.csv(file=paste(filepath,"CITYWORID.csv",sep=""),header=FALSE,fileEncoding="utf-8",encoding="utf-8")
+  filepath = "G:\\aboutMe\\Assignment\\DataMiningAssignment\\"
+  city <- read.csv(file=paste(filepath,"res\\","CITYWORID.csv",sep=""),header=FALSE,fileEncoding="utf-8",encoding="utf-8")
   names(city) <- c("enname","woeid","zhname","province","long","lat") #为数据集命名
   wdata <- do.call(rbind,lapply(city$woeid,getWeather))
   w <- cbind(city,wdata)
-  write.csv(w,file=paste(filepath,rename(),sep=""),row.names=FALSE,fileEncoding = "utf-8")
+  write.csv(w,file=paste(filepath,"weather\\",rename(),sep=""),row.names=FALSE,fileEncoding = "utf-8")
 }
