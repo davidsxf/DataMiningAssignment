@@ -1,0 +1,54 @@
+<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="1" yahoo:created="2017-03-28T05:45:54Z" yahoo:lang="zh-CN">
+<results>
+<channel>
+<yweather:units xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" distance="km" pressure="mb" speed="km/h" temperature="C"/>
+<title>Yahoo! Weather - Beijing, Beijing, CN</title>
+<link>
+http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-2151330/
+</link>
+<description>Yahoo! Weather for Beijing, Beijing, CN</description>
+<language>en-us</language>
+<lastBuildDate>Tue, 28 Mar 2017 01:45 PM CST</lastBuildDate>
+<ttl>60</ttl>
+<yweather:location xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" city="Beijing" country="China" region=" Beijing"/>
+<yweather:wind xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" chill="59" direction="205" speed="11.27"/>
+<yweather:atmosphere xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" humidity="37" pressure="34371.86" rising="0" visibility="25.91"/>
+<yweather:astronomy xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" sunrise="6:5 am" sunset="6:35 pm"/>
+<image>
+<title>Yahoo! Weather</title>
+<width>142</width>
+<height>18</height>
+<link>http://weather.yahoo.com</link>
+<url>
+http://l.yimg.com/a/i/brand/purplelogo//uh/us/news-wea.gif
+</url>
+</image>
+<item>
+<title>
+Conditions for Beijing, Beijing, CN at 01:00 PM CST
+</title>
+<geo:lat xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">39.90601</geo:lat>
+<geo:long xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">116.387909</geo:long>
+<link>
+http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-2151330/
+</link>
+<pubDate>Tue, 28 Mar 2017 01:00 PM CST</pubDate>
+<yweather:condition xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="32" date="Tue, 28 Mar 2017 01:00 PM CST" temp="15" text="Sunny"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="28 Mar 2017" day="Tue" high="16" low="5" text="Partly Cloudy"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="29 Mar 2017" day="Wed" high="18" low="4" text="Partly Cloudy"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="30 Mar 2017" day="Thu" high="16" low="8" text="Partly Cloudy"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="34" date="31 Mar 2017" day="Fri" high="17" low="6" text="Mostly Sunny"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="32" date="01 Apr 2017" day="Sat" high="22" low="6" text="Sunny"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="02 Apr 2017" day="Sun" high="23" low="6" text="Partly Cloudy"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="34" date="03 Apr 2017" day="Mon" high="21" low="8" text="Mostly Sunny"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="04 Apr 2017" day="Tue" high="21" low="9" text="Partly Cloudy"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="30" date="05 Apr 2017" day="Wed" high="20" low="11" text="Partly Cloudy"/>
+<yweather:forecast xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0" code="28" date="06 Apr 2017" day="Thu" high="20" low="10" text="Mostly Cloudy"/>
+<description>
+<![CDATA[<img src="http://l.yimg.com/a/i/us/we/52/32.gif"/> <BR /> <b>Current Conditions:</b> <BR />Sunny <BR /> <BR /> <b>Forecast:</b> <BR /> Tue - Partly Cloudy. High: 16Low: 5 <BR /> Wed - Partly Cloudy. High: 18Low: 4 <BR /> Thu - Partly Cloudy. High: 16Low: 8 <BR /> Fri - Mostly Sunny. High: 17Low: 6 <BR /> Sat - Sunny. High: 22Low: 6 <BR /> <BR /> <a href="http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-2151330/">Full Forecast at Yahoo! Weather</a> <BR /> <BR /> (provided by <a href="http://www.weather.com" >The Weather Channel</a>) <BR /> ]]>
+</description>
+<guid isPermaLink="false"/>
+</item>
+</channel>
+</results>
+</query>
