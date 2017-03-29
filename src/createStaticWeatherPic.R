@@ -18,7 +18,12 @@ getColor <- function(mapdata,prov,ctype){
 
 
 #data是已经保存好的weather.csv
-createStaticWeatherPic <- function(data=data,output=FALSE,path=""){
+createStaticWeatherPic <- function(){
+  filepath = chartr("/","\\",getwd())
+  output = TRUE
+  path = filepath
+  data <- read.csv(file=paste(filepath,"\\weather\\","weather20170328.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")#读取详细分类的天气
+  
   temp<-data$code #已经创建好的weather/weather.csv里面天气的code
   colors <- c(rev(brewer.pal(9,"Blues")),
               rev(c('#b80137','#8c0287','#d93c5d','#d98698','#f6b400','#c4c4a7','#d6d6cb','#d1b747','#ffeda0'))) #对应18中天气的颜色
@@ -29,7 +34,6 @@ createStaticWeatherPic <- function(data=data,output=FALSE,path=""){
   colors <- rev(colors) #翻转数组
   
   #读取天气代码文件
-  filepath = chartr("/","\\",getwd())  
   wcode <- read.csv(file=paste(filepath,"\\res\\","WEATHERCODE.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")#读取详细分类的天气
   wpcode <- read.csv(file=paste(filepath,"\\res\\","WEATHERTYPE.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")#读取大类的天气
   ctype <- sapply(temp,function(x){wcode$type[which(x==wcode$code)]}) #根据天气代码获取天气的type
