@@ -24,5 +24,6 @@ createMap <- function(){
            552,610,2095,2296,693)
   provcol=rgb(red=1-pop/max(pop)/2,green=1-pop/max(pop)/2,blue=0)
   plot(map,col=setColor(map,provname,provcol,"white"))
+  return (map)
 }
 
