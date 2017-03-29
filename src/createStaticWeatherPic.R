@@ -4,16 +4,15 @@ library(RColorBrewer)
 #prv-传入的省会名称
 #ctype-天气类型
 getColor <- function(mapdata,prov,ctype){
-  #filepath = chartr("/","\\",getwd())  
-  #city <- read.csv(file=paste(filepath,"\\res\\","CITYWORID.csv",sep=""),header=FALSE,fileEncoding="utf-8",encoding="utf-8")
-  #names(city) <- c("enname","woeid","zhname","province","long","lat") #为数据集命名
-  #fc <- function(x){city$city[which(x==city$province)]}  #返回x在city$province的下标
+  filepath = chartr("/","\\",getwd())  
+  ADCODE99 <- read.csv(file=paste(filepath,"\\res\\","ADCODE99.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")
+  fc <- function(x){ADCODE99$ADCODE99[which(x==ADCODE99$prov)]}  #返回x在city$province的下标
+  code <- sapply(prov,fc)
   
   f <- function(x,y){ifelse(x %in% y,which(y==x),0)}
-  colIndex <- sapply(mapdata$data$NAME,f,prov)
-
-  colIndex
-  return (colIndex)
+  colIndex <- sapply(mapdata@data$ADCODE99,f,code)
+  ctype[which(is.na(ctype))] = 19
+  return (ctype[colIndex])
 }
 
 
@@ -39,14 +38,14 @@ createStaticWeatherPic <- function(){
   ctype <- sapply(temp,function(x){wcode$type[which(x==wcode$code)]}) #根据天气代码获取天气的type
   
   if(output)
-    png(file=paste(path,"\\weather\\",wpicname,sep=""),width = 600,height=600)
+    png(file=paste(path,"\\weather\\",wpicname,sep=""),width = 900,height=900)
   
   layout(matrix(data=c(1,2),nrow=1,ncol=2),widths=c(8,1),heights=c(1,2))
   par(mar=c(0,0,3,12),oma=c(0.2,0.2,0.2,0.2),mex=0.3)
   
   plot(map,border="white",col=colors[ctype])# 地图和天气可视化
   points(data$long,data$lat,pch=19,col=rgb(0,0,0,0.3),cex=0.8)    # 标出采样城市
-  text(data$long,data$lat,data$zhname,ps=0.3)
+  text(data$long,data$lat,data$zhname,ps=0.1)
   
   #===============图片中辅助文字====================# 
   if(FALSE){
