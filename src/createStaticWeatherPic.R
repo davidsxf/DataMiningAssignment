@@ -11,13 +11,11 @@ getColor <- function(mapdata,prov,ctype){
   
   f <- function(x,y){ifelse(x %in% y,which(y==x),0)}
   colIndex <- sapply(mapdata$data$NAME,f,prov)
-  #ctype[which(is.na(ctype))] = 19
-  #r = ctype[colIndex]
-  #if(is.na(r))
-   # r = 19
+
   colIndex
   return (colIndex)
 }
+
 
 #data是已经保存好的weather.csv
 createStaticWeatherPic <- function(data=data,output=FALSE,path=""){
@@ -37,11 +35,46 @@ createStaticWeatherPic <- function(data=data,output=FALSE,path=""){
   ctype <- sapply(temp,function(x){wcode$type[which(x==wcode$code)]}) #根据天气代码获取天气的type
   
   if(output)
-    png(file=paste(path,ofile,sep=""),width = 600,height=600)
+    png(file=paste(path,"\\weather\\",wpicname,sep=""),width = 600,height=600)
   
   layout(matrix(data=c(1,2),nrow=1,ncol=2),widths=c(8,1),heights=c(1,2))
   par(mar=c(0,0,3,12),oma=c(0.2,0.2,0.2,0.2),mex=0.3)
   
-  plot(map,border="white",col=colors[getColor(map,data$province,ctype)])# 地图和天气可视化
+  plot(map,border="white",col=colors[ctype])# 地图和天气可视化
   points(data$long,data$lat,pch=19,col=rgb(0,0,0,0.3),cex=0.8)    # 标出采样城市
+  text(data$long,data$lat,data$zhname,ps=0.3)
+  
+  #===============图片中辅助文字====================# 
+  if(FALSE){
+    grid()
+    axis(1,lwd = 0);axis(2,lwd = 0);axis(3,lwd = 0);axis(4,lwd = 0)
+  }
+  text(100,58,cex = 2)
+  text(105,54,format(date,"%Y-%m-%d"))
+  text(98,65,paste('Assignment','http://apps.weibo.com/chinaweatherapp'))
+  text(120,-8,paste('provided by The Weather Channel',format(date, "%Y-%m-%d %H:%M")),cex=0.8)
+
+  #===============文字说明====================# 
+  for(row in 1:nrow(data)){
+    name <- as.character(data$zhname[row])
+    label <- wpcode$alias[wpcode$type==ctype[row]]
+    x1 <- ceiling(row/7)
+    x2 <- ifelse(row%%7==0,7,row%%7)
+    x3 <- ctype[row]
+    fontCol <- '#000000'
+    if(x3<=5) fontCol <- head(colors,1)
+    if(x3>=12) fontCol <- tail(colors,1)
+    text(68+x1*11,17-x2*3,paste(name,' ',label,sign,sep=""),col=fontCol)
+  }
+  
+  #===============图例====================#
+  par(mar=c(5,0,15,10))
+  image(x=1,y=1:length(colors),z=t(matrix(1:length(colors))),col=rev(colors),axes=FALSE,xlab = "",ylab = "",xaxt="n")
+  axis(4,at=1:(nrow(wpcode)-1),labels = rev(wpcode$alias)[-1],col="white",las=1)
+  abline(h=c(1:(nrow(wpcode)-2)+0.5),col="white",lwd=2,xpd=FALSE)
+  if(output)
+    dev.off()
+  
+  
+  
 }
