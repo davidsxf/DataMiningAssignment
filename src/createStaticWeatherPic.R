@@ -43,7 +43,7 @@ createStaticWeatherPic <- function(){
   layout(matrix(data=c(1,2),nrow=1,ncol=2),widths=c(8,1),heights=c(1,2))
   par(mar=c(0,0,3,12),oma=c(0.2,0.2,0.2,0.2),mex=0.3)
   
-  plot(map,border="white",col=colors[ctype])# 地图和天气可视化
+  plot(map,border="white",col=colors[getColor(map,data$province,ctype)])# 地图和天气可视化
   points(data$long,data$lat,pch=19,col=rgb(0,0,0,0.3),cex=0.8)    # 标出采样城市
   text(data$long,data$lat,data$zhname,ps=0.1)
   
@@ -52,10 +52,9 @@ createStaticWeatherPic <- function(){
     grid()
     axis(1,lwd = 0);axis(2,lwd = 0);axis(3,lwd = 0);axis(4,lwd = 0)
   }
-  text(100,58,cex = 2)
   text(105,54,format(date,"%Y-%m-%d"))
-  text(98,65,paste('Assignment','http://apps.weibo.com/chinaweatherapp'))
-  text(120,-8,paste('provided by The Weather Channel',format(date, "%Y-%m-%d %H:%M")),cex=0.8)
+  text(98,65,'Data mining Assignment')
+  text(120,-8,paste('',format(date, "%Y-%m-%d %H:%M")),cex=0.8)
 
   #===============文字说明====================# 
   for(row in 1:nrow(data)){
