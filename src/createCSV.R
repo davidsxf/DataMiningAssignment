@@ -1,8 +1,8 @@
 library(readr)
 rename <- function(){
   #为文件命名
-  date = Sys.time() #获取当前时间
-  paste("weather",format(date,"%Y%m%d"),".csv",sep="")
+  date = getCurrentDate() #获取当前时间
+  paste("weather",date,".csv",sep="")
 }
 
 loadWeatherByCity <- function(){

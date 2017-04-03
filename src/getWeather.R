@@ -1,6 +1,5 @@
 library(RCurl) 
 library(XML)
-library(bitops)
 
 getWeather <- function(woeid){
  

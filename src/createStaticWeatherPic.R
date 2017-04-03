@@ -21,14 +21,14 @@ createStaticWeatherPic <- function(){
   filepath = chartr("/","\\",getwd())
   output = TRUE
   path = filepath
-  data <- read.csv(file=paste(filepath,"\\weather\\","weather20170328.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")#读取详细分类的天气
+  data <- read.csv(file=paste(filepath,"\\weather\\","weather",getCurrentDate(),".csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")#读取详细分类的天气
   
   temp<-data$code #已经创建好的weather/weather.csv里面天气的code
   colors <- c(rev(brewer.pal(9,"Blues")),
               rev(c('#b80137','#8c0287','#d93c5d','#d98698','#f6b400','#c4c4a7','#d6d6cb','#d1b747','#ffeda0'))) #对应18中天气的颜色
   map <- createMap() #创建地图
   pictitle <- '天气概况' #标题
-  wpicname <- paste(format(date,"%Y%m%d"),"weather.png",sep="") 
+  wpicname <- paste(getCurrentDate(),"weather.png",sep="") 
   sign <- ''
   colors <- rev(colors) #翻转数组
   
