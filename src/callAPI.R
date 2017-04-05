@@ -8,6 +8,7 @@ library(maptools) #创建map
 library(recharts) #生成recharts
 library(htmlwidgets)
 
+loadWeatherByCity();
 filepath = chartr("/","\\",getwd())
 wdata <- read.csv(file=paste(filepath,"\\weather\\","weather",getCurrentDate(),".csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")#读取详细分类的天气
 recharts.emap <- createHTMLWithWeather(wdata = wdata,type="high",output=FALSE)

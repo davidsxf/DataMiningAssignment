@@ -6,18 +6,18 @@ library(htmlwidgets)
 #'path-输出路径
 createHTMLWithWeather <- function(wdata,type="high",output=FALSE){
   path = paste(chartr("/","\\",getwd()),"\\html\\",sep="");
-  date <- format(Sys.time(),"%Y-%m-%d")
+  datenow <- format(Sys.time(),"%Y-%m-%d")
   if(type == 'high'){
     #白天
     df <- wdata[,c('province','high')]
     names(df) <- c('province','气温')
-    title <- paste(date,"中国各省白天天气",sep="")
-    ofile <- paste(date,"dayweather.html",sep="")
+    title <- paste(datenow,"中国各省白天天气",sep="")
+    ofile <- paste(datenow,"dayweather.html",sep="")
   } else if(type=="low"){
     df <- wdata[,c('province','low')]
     names(df) <- c('province','气温')
-    title <- paste(date,"中国各省夜间天气",sep="")
-    ofile <- paste(date,"nightweather.html",sep="")
+    title <- paste(datenow,"中国各省夜间天气",sep="")
+    ofile <- paste(datenow,"nightweather.html",sep="")
   }
   
   df[,1] <- substr(df[,1],0,2) #数据格式整理
