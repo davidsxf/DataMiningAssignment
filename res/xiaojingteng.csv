@@ -1,0 +1,60 @@
+date,location,pinyin
+2011.02.26,上海,shanghai
+2011.07.02,台北,taibei
+2011.08.06,香港,hongkong
+2011.08.07,香港,hongkong
+2011.12.24,上海,shanghai
+2012.02.11,台北,taibei
+2012.02.12,台北,taibei
+2012.03.17,广州,guangzhou
+2012.03.31,澳门,aomen
+2012.06.16,杭州,hangzhou
+2012.06.30,深圳,shenzhen
+2012.07.21,北京,beijing
+2012.09.15,厦门,xiamen
+2012.09.22,福州,fuzhou
+2012.09.29,武汉,wuhan
+2012.10.13,南京,nanjing
+2012.10.20,长沙,changsha
+2012.12.01,成都,chengdu
+2012.12.15,上海,shanghai
+2012.12.28,香港,hongkong
+2012.12.29,香港,hongkong
+2013.03.29,台北,taibei
+2013.03.30,台北,taibei
+2012.12.08,台北,taibei
+2014.11.22,台北,taibei
+2014.11.23,台北,taibei
+2014.11.29,上海,shanghai
+2014.12.20,北京,beijing
+2015.01.17,广州,guangzhou
+2015.03.28,杭州,hangzhou
+2015.04.18,天津,tianjin
+2015.05.30,南京,nanjing
+2015.06.13,武汉,wuhan
+2015.06.30,南宁,nanning
+2015.08.07,香港,hongkong
+2015.09.12,青岛,qingdao
+2015.09.26,厦门,xiamen
+2015.10.24,重庆,chongqing
+2015.11.08,上海,shanghai
+2016.10.8,台北,taibei
+library(RCurl) 
+library(XML)
+#通过城市拼音和日期查询天气
+getWeatherByCityNameAndDate <- function(city="beijing",date="2011.01.01"){
+    row <- substr(date,9,10)
+    row <- as.numeric(row) + 1 #get the rowth number
+    date <- paste(substr(date,1,4),substr(date,6,7),sep="")
+    ulchild <- paste("ul:nth-child(",row,")",sep="")
+    url <- paste("http://lishi.tianqi.com/",city,"/",date,".html",sep="");
+    freak <- html_session(url)
+    table <- freak %>% html_nodes("div[id='tool_site']")
+    date <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(1)") %>%  html_text() #日期
+    high <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(2)") %>%  html_text() #最高气温
+    low <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(3)") %>%  html_text() #最低气温
+    weather <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(4)") %>%  html_text() #天气
+    windDirec <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(5)") %>%  html_text() #风向
+    windlevel <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(6)") %>%  html_text() #风力
+    cbind(high,low,weather,windDirec,windlevel)
+}
