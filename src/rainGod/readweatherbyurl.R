@@ -15,5 +15,11 @@ getWeatherByCityNameAndDate <- function(city="beijing",date="2011.01.01"){
     weather <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(4)") %>%  html_text() #天气
     windDirec <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(5)") %>%  html_text() #风向
     windlevel <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(6)") %>%  html_text() #风力
-    cbind(high,low,weather,windDirec,windlevel)
+    isRainy <- grep("雨",weather)
+    if(length(isRainy) > 0){
+      isRainy = "有雨"
+    }else{
+      isRainy = "没雨"
+    }
+    cbind(high,low,weather,windDirec,windlevel,isRainy)
 }
