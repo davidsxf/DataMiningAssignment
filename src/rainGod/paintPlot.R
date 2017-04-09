@@ -39,13 +39,13 @@ paintPie3DGraph(xiaojingteng)
 paintBarGraph <- function(city="beijing",month="07"){
   filepath <- chartr("/","\\",getwd())
   filename <- getCityNameByPin(city,month)
-  png(file=paste(filepath,"\\img\\",filename,".png",sep=""),width = 900,height=900)
+  png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
   rainyDays <- countRainyDaysByCityAndMonth(filename=city,month=month)#纵坐标
   years <- c(2011,2012,2013,2014,2015,2016)
   barplot(height = rainyDays,names.arg = years,
           ylim = c(0,max(rainyDays)+5),xlab = "年份",
           ylab = "下雨天数",main = filename,
-          space = 1,col = c(8),width=c(1),xlim=c(0,20)
+          space = 1,col = c(8),width=c(1)
           )
   dev.off()
 }
