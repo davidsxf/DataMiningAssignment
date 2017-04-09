@@ -2,12 +2,17 @@
 #折线图
 library(ggplot2)
 library(plotrix)
-paintLineGraph <- function(wdata) {
-  ggplot(wdata,aes(x = date, y = isRainy))+
-  geom_point()
+paintLineGraph <- function(wdata,person="xiaojingteng") {
+  filename <- paste(getFileNameByPersonName(person),"-折线图",sep="")
+  png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
+  ggplot(wdata,aes(x = date, y = isRainy)) + geom_point()
+  dev.off()
 }
 #饼状图
-paintPieGraph <- function(wdata) {
+paintPieGraph <- function(wdata,person="xiaojingteng") {
+  filename <- paste(getFileNameByPersonName(person),"-饼图",sep="")
+  png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
+  isRainy <- as.data.frame(table(wdata$isRainy))
   isRainy <- as.data.frame(table(wdata$isRainy))
   names(isRainy) <- c("isR","freq")
   noRainTimes <- isRainy$freq[1]
@@ -16,9 +21,12 @@ paintPieGraph <- function(wdata) {
   rainRate <- rainTimes/(noRaintimes+rainTimes)
   pie(c(noRaintRate,rainRate),labels = c(paste("没雨:",noRaintRate*100,"%",sep=""),paste("有雨:",rainRate*100,"%",sep="")),
       col = rainbow(2))
+  dev.off()
 }
 #3d饼状图
-paintPie3DGraph <- function(wdata) {
+paintPie3DGraph <- function(wdata,person="xiaojingteng") {
+  filename <- paste(getFileNameByPersonName(person),"-3D饼图",sep="")
+  png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
   isRainy <- as.data.frame(table(wdata$isRainy))
   names(isRainy) <- c("isR","freq")
   noRainTimes <- isRainy$freq[1]
@@ -27,13 +35,28 @@ paintPie3DGraph <- function(wdata) {
   rainRate <- rainTimes/(noRaintimes+rainTimes)
   pie3D(c(noRaintRate,rainRate),labels = c(paste("没雨:",noRaintRate*100,"%",sep=""),paste("有雨:",rainRate*100,"%",sep="")),
       col = rainbow(2))
+  dev.off()
 }
 
-filepath = chartr("/","\\",getwd())
-xiaojingteng <- read.csv(file=paste(filepath,"\\weather\\xiaojingtengwithweather.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")
-paintLineGraph(xiaojingteng)
-paintPieGraph(xiaojingteng)
-paintPie3DGraph(xiaojingteng)
+
+getFileNameByPersonName <- function(person = "xiaojingteng"){
+  if(person == "xiaojingteng")
+    r <- "萧敬腾演唱会行程与下雨关系"
+  if(person == "zhoujielun")
+    r <- "周杰伦演唱会行程与下雨关系"
+  return (r)
+}
+
+
+#hui zhimingixngde xingcheng
+paintStartsRoute <- function(person="xiaojingteng"){
+  filepath = chartr("/","\\",getwd())
+  wdata <- read.csv(file=paste(filepath,"\\weather\\",person,"withweather.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")
+  paintLineGraph(wdata)
+  paintPieGraph(wdata)
+  paintPie3DGraph(wdata)
+}
+
 
 #绘制柱状图
 paintBarGraph <- function(city="beijing",month="07"){

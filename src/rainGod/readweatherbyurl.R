@@ -1,5 +1,4 @@
-library(RCurl) 
-library(XML)
+library(rvest)
 #通过城市拼音和日期查询天气
 getWeatherByCityNameAndDate <- function(city="beijing",date="2011.01.01"){
     row <- substr(date,9,10)
