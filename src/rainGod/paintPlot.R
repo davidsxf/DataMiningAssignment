@@ -45,10 +45,27 @@ paintBarGraph <- function(city="beijing",month="07"){
   barplot(height = rainyDays,names.arg = years,
           ylim = c(0,max(rainyDays)+5),xlab = "年份",
           ylab = "下雨天数",main = filename,
-          space = 1,col = c(8),width=c(1)
+          space = 1,col = c(8),width=c(1),axis.lty = 1
           )
   dev.off()
 }
+
+#根据城市，获取2001-2017年中1-12月平均每月下雨的天数
+paintBarGraphAvg <- function(city="beijing"){
+  filepath <- chartr("/","\\",getwd())
+  filename <- getCityNameByPinAvg(city)
+  png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
+  rainyDays <- countRainyDaysByCityAndMonthAvg(filename=city)#纵坐标
+  years <- c(1,2,3,4,5,6,7,8,9,10,11,12)
+  barplot(height = rainyDays,names.arg = years,
+          ylim = c(0,max(rainyDays)+5),xlab = "年份",
+          ylab = "下雨天数",main = filename,
+          space = 1,col = c(8),width=c(1),axis.lty = 1
+  )
+  dev.off()
+}
+
+
 
 getCityNameByPin <- function(city = "beijing",month = "07"){
   if(city == "beijing")
@@ -59,5 +76,16 @@ getCityNameByPin <- function(city = "beijing",month = "07"){
     r = paste("长沙各年",month,"月份下雨天数",sep="")
   if(city == "tianjin")
     r = paste("天津各年",month,"月份下雨天数",sep="")
+  return (r)
+}
+getCityNameByPinAvg <- function(city = "beijing"){
+  if(city == "beijing")
+    r = "北京各年平均每个月份下雨天数"
+  if(city == "shanghai")
+    r = "上海各年平均每个月份下雨天数"
+  if(city == "changsha")
+    r = "长沙各年平均每个月份下雨天数"
+  if(city == "tianjin")
+    r = "天津各年平均每个月份下雨天数"
   return (r)
 }
