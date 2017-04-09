@@ -14,19 +14,19 @@ getWeatherByCityNameAndDate <- function(city="beijing",date="2011.01.01"){
     weather <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(4)") %>%  html_text() #天气
     windDirec <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(5)") %>%  html_text() #风向
     windlevel <- table %>% html_nodes(ulchild) %>% html_nodes("li:nth-child(6)") %>%  html_text() #风力
-    if(length(high) == 0){
+    if(length(high) == 0 || is.na(high)){
       high = "30"
     }
-    if(length(low) == 0){
+    if(is.na(high) || length(low) == 0){
       low = "3"
     }
-    if(length(weather) == 0){
+    if(is.na(weather) || length(weather) == 0){
       weather = "晴"
     }
-    if(length(windDirec) == 0){
+    if(is.na(windDirec) || length(windDirec) == 0){
       windDirec = "西南风"
     }
-    if(length(windlevel) == 0){
+    if(is.na(windlevel) || length(windlevel) == 0){
       windlevel = "微风"
     }
     

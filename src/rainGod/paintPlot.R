@@ -3,6 +3,7 @@
 library(ggplot2)
 library(plotrix)
 paintLineGraph <- function(wdata,person="xiaojingteng") {
+  filepath = chartr("/","\\",getwd())
   filename <- paste(getFileNameByPersonName(person),"-折线图",sep="")
   png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
   ggplot(wdata,aes(x = date, y = isRainy)) + geom_point()
@@ -43,6 +44,8 @@ getFileNameByPersonName <- function(person = "xiaojingteng"){
     r <- "萧敬腾演唱会行程与下雨关系"
   if(person == "zhoujielun")
     r <- "周杰伦演唱会行程与下雨关系"
+  if(person == "chenyixun")
+    r <- "陈奕迅演唱会行程与下雨关系"
   return (r)
 }
 
