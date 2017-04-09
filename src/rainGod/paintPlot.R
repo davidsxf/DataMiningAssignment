@@ -13,12 +13,11 @@ paintPieGraph <- function(wdata,person="xiaojingteng") {
   filename <- paste(getFileNameByPersonName(person),"-饼图",sep="")
   png(file=paste(filepath,"\\img\\",filename,".png",sep=""))
   isRainy <- as.data.frame(table(wdata$isRainy))
-  isRainy <- as.data.frame(table(wdata$isRainy))
   names(isRainy) <- c("isR","freq")
   noRainTimes <- isRainy$freq[1]
   rainTimes <- isRainy$freq[2]
-  noRaintRate <- noRaintimes/(noRaintimes+rainTimes)
-  rainRate <- rainTimes/(noRaintimes+rainTimes)
+  noRaintRate <- round(noRainTimes/(noRainTimes+rainTimes),3)
+  rainRate <- round(rainTimes/(noRainTimes+rainTimes),3)
   pie(c(noRaintRate,rainRate),labels = c(paste("没雨:",noRaintRate*100,"%",sep=""),paste("有雨:",rainRate*100,"%",sep="")),
       col = rainbow(2))
   dev.off()
@@ -31,8 +30,8 @@ paintPie3DGraph <- function(wdata,person="xiaojingteng") {
   names(isRainy) <- c("isR","freq")
   noRainTimes <- isRainy$freq[1]
   rainTimes <- isRainy$freq[2]
-  noRaintRate <- noRaintimes/(noRaintimes+rainTimes)
-  rainRate <- rainTimes/(noRaintimes+rainTimes)
+  noRaintRate <- round(noRainTimes/(noRainTimes+rainTimes),3)
+  rainRate <- round(rainTimes/(noRainTimes+rainTimes),3)
   pie3D(c(noRaintRate,rainRate),labels = c(paste("没雨:",noRaintRate*100,"%",sep=""),paste("有雨:",rainRate*100,"%",sep="")),
       col = rainbow(2))
   dev.off()
@@ -49,12 +48,13 @@ getFileNameByPersonName <- function(person = "xiaojingteng"){
 
 
 #hui zhimingixngde xingcheng
+#这是调用入口
 paintStartsRoute <- function(person="xiaojingteng"){
   filepath = chartr("/","\\",getwd())
   wdata <- read.csv(file=paste(filepath,"\\weather\\",person,"withweather.csv",sep=""),header=TRUE,fileEncoding="utf-8",encoding="utf-8")
-  paintLineGraph(wdata)
-  paintPieGraph(wdata)
-  paintPie3DGraph(wdata)
+  paintLineGraph(wdata,person)
+  paintPieGraph(wdata,person)
+  paintPie3DGraph(wdata,person)
 }
 
 

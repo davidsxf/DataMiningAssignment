@@ -10,7 +10,7 @@ mergeWeatherAndLocation <- function(personname="xiaojingteng"){
     wdata = getWeatherByCityNameAndDate(city=person$pinyin[i],date=person$date[i])
     result <- append(result,c(wdata))
   }
-  wdataResult <- data.frame(matrix(result,nrow = 40,ncol = 6,byrow = TRUE))
+  wdataResult <- data.frame(matrix(result,nrow = size ,ncol = 6,byrow = TRUE))
   names(wdataResult) <- c("high","low","weather","winddirec","windlevel","isRainy") #为数据集命名
   w <- cbind(person,wdataResult)
   write.csv(w,file=paste(filepath,"\\weather\\",personname,"withweather.csv",sep=""),row.names=TRUE,fileEncoding = "utf-8")
