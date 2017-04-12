@@ -19,8 +19,8 @@ image(sample(achivement,50))
 #'规则
 achivementRules <- apriori(achivement,
                            parameter = list(
-                             support=0.4,
-                             confidence=1
+                             support=0.3,
+                             confidence=0.6,minlen=1
                            ) )
 summary(achivementRules)
 inspect(achivementRules)

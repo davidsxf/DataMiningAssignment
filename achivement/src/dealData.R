@@ -74,7 +74,7 @@ filterData <- function(wdata){
   size <- length(wdata)
   for(row in 1:size){
     w <- wdata[row,]#一行数据
-    if(length(w) != 36 || !isContainsUnNum(w)){
+    if(length(w) != 34 || !isContainsUnNum(w)){
       drop(w)
     }
   }
@@ -82,15 +82,16 @@ filterData <- function(wdata){
 }
 
 achivement <- read.csv(getFilePath("achivement"),header=TRUE,fileEncoding="utf-8",encoding="utf-8")
-achivement <- filterData(achivement)
+#achivement <- filterData(achivement)
+size <- length(achivement)
 result <- do.call(rbind,lapply(achivement[,1],makeLevel,numConvertToColName(1)))
-for(col in 2:36){
+for(col in 2:size){
   wdata <- do.call(rbind,lapply(achivement[,col],makeLevel,numConvertToColName(col)))
   result <- cbind(result,wdata)
 }
 
 colsname = c()
-for(i in 1:36){
+for(i in 1:size){
   colsname = append(colsname,c(numConvertToColName(i)))
 }
 
