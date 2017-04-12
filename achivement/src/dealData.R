@@ -4,13 +4,13 @@ library(readr)
 #'70≤kscj<80量化为3；
 #'kscj≥80量化为4
 makeLevel <- function(score = 60,ch = "A"){
-  if(score < 60)
+  if(score < 65)
     return (paste(ch,"1",sep=""))
-  if(score < 70 && score >=60)
+  if(score >= 65 && score < 75)
     return (paste(ch,"2",sep=""))
-  if(score < 80 && score >=70)
+  if(score < 85 && score >=75)
     return (paste(ch,"3",sep=""))
-  if(score >= 80)
+  if(score >= 85)
     return (paste(ch,"4",sep=""))
   return (0)
 }
