@@ -36,7 +36,7 @@ getRules <- function(support=0.2,confidence=0.2,minlen=2){
 }
 
 #
-dealWithRules <- function(support=0.2,confidence=0.2,minlen=2){
+dealWithRules <- function(support=0.2,confidence=0.1,minlen=2){
   rules <- getRules(support,confidence,minlen)
   writeData(rules,"achivement_rules")#
   paintScatterPlot(rules,"Scatter_rules")
@@ -45,7 +45,7 @@ dealWithRules <- function(support=0.2,confidence=0.2,minlen=2){
 }
 
 #'获取频繁项集
-getFreqItemSet <- function(support=0.2,minlen=2){
+getFreqItemSet <- function(support=0.1,minlen=2){
   wdata <- getDataSource()
   wdata.eclat <- eclat(wdata,parameter = list(
     support=support,
