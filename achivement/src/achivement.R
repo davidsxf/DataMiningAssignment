@@ -16,7 +16,7 @@ getDataSource <- function(){
 }
 #'根据每个元素支持度画图
 paintItemFrequencyPlot <- function(support=0.3){
-  png(filename=paste(getImgPath(),"频繁度.png"),width=1000,height=500)
+  png(filename=paste(getImgPath(),"支持度.png"),width=1000,height=500)
   wdata <- getDataSource()
   itemFrequencyPlot(wdata,support=0.3)
   dev.off()
@@ -35,7 +35,7 @@ getRules <- function(support=0.2,confidence=0.2,minlen=2){
   return (ordered_achivementrules)
 }
 
-#
+#处理关联规则
 dealWithRules <- function(support=0.2,confidence=0.1,minlen=2){
   rules <- getRules(support,confidence,minlen)
   writeData(rules,"achivement_rules")#
@@ -52,7 +52,8 @@ getFreqItemSet <- function(support=0.1,minlen=2){
     minlen = minlen))
   return (wdata.eclat)
 }
-#'
+
+#'处理频繁项集
 dealWithFreqItemSet <- function(support=0.2,minlen=2){
   freqItemSet <- getFreqItemSet(support,minlen)
   writeData(freqItemSet,"achivement_freqItemSet")#
@@ -87,7 +88,82 @@ paintGraph <- function(wdata,filename){
   dev.off()
 }
 
+#'根据achivement.csv文件绘制每一门课的平均分值
+paintEveryClassAvg <- function(){
+  wdata <- read.csv(getFilePath("achivement"),header = TRUE,fileEncoding="utf-8",encoding="utf-8")
+  grade <- c()#存储每一列的平均值
+  size <- length(wdata)
+  for(col in 1:size){
+    w <- wdata[,col]
+    s <- length(w)
+    sum <- 0
+    for(every in 1:s){
+      sum <- sum + w[every]
+    }
+    grade <- append(grade,c(sum/s))
+    sum=0
+  }
+  subject <- c("A","B","C","D","E","F","G","H","R","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA")
+  paintBarGraph(subject,grade)
+}
 
+#'绘制柱状图
+#'subject-各科科目作为横坐标 grade-各科平均成绩作为纵坐标
+paintBarGraph <- function(subject,grade){
+  png(filename=paste(getImgPath(),"各科平均成绩.png",sep=""),width=1000,height=500)
+  barplot(height = grade,names.arg = subject,
+          ylim = c(0,100),xlab = "课程",
+          ylab = "平均成绩",main = "各科平均成绩",
+          space = 1,col = c(8),width=c(1),axis.lty = 1
+  )
+  dev.off()
+}
+
+
+#'绘制每个科目的层次等级
+parintEveryClassByLevel <- function(){
+  wdata <- read.csv(getFilePath("achivement2"),header = TRUE,fileEncoding="utf-8",encoding="utf-8")
+  #统计每一列包含1的个数和包含2的个数和包含3的个数
+  size <- length(wdata)
+  result <- data.frame()
+  for(col in 1:size){
+    w <- wdata[,col]#获取到这一列所有值
+    first <- 0
+    second <- 0
+    third <- 0
+    ch <- numConvertToColName(col)
+    level1 <- paste(ch,"1",sep="")
+    level2 <- paste(ch,"2",sep="")
+    level3 <- paste(ch,"3",sep="")
+    s <- length(w)
+    for(row in 1:s){
+      target = w[row][1]
+      if(target == level1){
+        first <- first+1
+      }
+      if(target == level2){
+        second <- second+1
+      }
+      if(target == level3){
+        third <- third+1
+      }
+    }
+    if(length(result) == 0){
+      result <- data.frame(ch = c(first,second,third))
+    }
+    else{
+      result <- cbind(result,ch = c(first,second,third))
+    }
+  }
+  m <- as.matrix(result)
+}
+#'根据矩阵绘制多层次的柱状图
+paintMultiLevel <- function(m){
+  png(filename=paste(getImgPath(),"各科成绩水平分布.png",sep=""),width=1000,height=500)
+  subject <- c("A","B","C","D","E","F","G","H","R","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA")
+  barplot(height=m,names.arg = subject,main="各科成绩水平分布",col = c("red","green","blue"))
+  dev.off()
+}
 
 #'itemFreq <- itemFrequency(achivement) 每一个item出现的频率
 #'summary(achivement)
