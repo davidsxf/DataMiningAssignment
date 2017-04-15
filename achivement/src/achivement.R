@@ -23,7 +23,7 @@ paintItemFrequencyPlot <- function(support=0.3){
 }
 
 #'获取关联规则
-getRules <- function(support=0.2,confidence=0.2,minlen=2){
+getRules <- function(support=0.2,confidence=0.3,minlen=2){
   wdata <- getDataSource()
   achivementRules <- apriori(wdata,
                              parameter = list(
@@ -36,7 +36,7 @@ getRules <- function(support=0.2,confidence=0.2,minlen=2){
 }
 
 #处理关联规则
-dealWithRules <- function(support=0.2,confidence=0.1,minlen=2){
+dealWithRules <- function(support=0.2,confidence=0.3,minlen=2){
   rules <- getRules(support,confidence,minlen)
   writeData(rules,"achivement_rules")#
   paintScatterPlot(rules,"Scatter_rules")
@@ -60,8 +60,6 @@ dealWithFreqItemSet <- function(support=0.2,minlen=2){
   paintScatterPlot(freqItemSet,"Scatter_freqItemSet")
   paintGraph(freqItemSet,"Graph_freqItemSet")
 }
-
-
 
 #'获取关联规则并写入文件
 writeData <- function(wdata,filename){
@@ -162,6 +160,28 @@ paintMultiLevel <- function(m){
   png(filename=paste(getImgPath(),"各科成绩水平分布.png",sep=""),width=1000,height=500)
   subject <- c("A","B","C","D","E","F","G","H","R","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA")
   barplot(height=m,names.arg = subject,main="各科成绩水平分布",col = c("red","green","blue"))
+  dev.off()
+}
+
+
+#'绘制当置信度为0.3的时候,支持度从0.2-0.6折线图
+#'通过支持度，获取条目
+getItemsCount <- function(support,confidence=0.3,minlen=2){
+  w <- getRules(support,confidence,minlen)
+  writeData(w,paste("support",support,sep=""))
+  return (length(w))
+}
+getDataSourceToPaintLineGraph <- function(){
+  sRange <- c(0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7)
+  result <- c()
+  for(r in sRange){
+    result <- append(result,c(getItemsCount(r)))
+  }
+  paintLineGraph(y=result,x=sRange)
+}
+paintLineGraph <- function(y,x){
+  png(filename=paste(getImgPath(),"无时间下关联规则数目对比图.png",sep=""),width=1000,height=500)
+  plot(x = x,type="b",y=y)
   dev.off()
 }
 
