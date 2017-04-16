@@ -5,6 +5,14 @@ library(arulesViz)
 getFilePath <- function(filename="achivement"){
   return (paste(chartr("/","\\",getwd()),"\\achivement\\resource\\",filename,".csv",sep=""))
 }
+#
+getAllSubject <- function(){
+  subject <- c("思想道德修养与法律基础           
+","中国近现代史纲要        
+","程序设计基础与C程序设计","面向对象方法与C++程序设计","模拟与数字电路       
+","计算机系统组装与设置","模拟与数字电路实验","工科数学分析基础1","工科数学分析基础2","线性代数与解析几何","军事理论","马克思主义基本原理","毛泽东思想和中国特色社会主义理论体系概论","数据结构与算法","离散数学","计算机组织与结构 ","操作系统","计算机组织与结构实验","大学物理","概率与统计A ","网络综合实验",
+"数据库系统","软件工程","UML","系统分析与设计","军训","健康教育")
+}
 #'获取图片路径
 getImgPath <- function(){
   return (paste(chartr("/","\\",getwd()),"\\achivement\\img\\",sep=""))
@@ -15,7 +23,7 @@ getDataSource <- function(){
   return (achivement)
 }
 #'根据每个元素支持度画图
-paintItemFrequencyPlot <- function(support=0.3){
+paintItemFrequencyPlot <- function(support=0.5){
   png(filename=paste(getImgPath(),"支持度.png"),width=1000,height=500)
   wdata <- getDataSource()
   itemFrequencyPlot(wdata,support=0.3)
@@ -23,7 +31,7 @@ paintItemFrequencyPlot <- function(support=0.3){
 }
 
 #'获取关联规则
-getRules <- function(support=0.2,confidence=0.3,minlen=2){
+getRules <- function(support=0.5,confidence=0.3,minlen=2){
   wdata <- getDataSource()
   achivementRules <- apriori(wdata,
                              parameter = list(
@@ -36,7 +44,7 @@ getRules <- function(support=0.2,confidence=0.3,minlen=2){
 }
 
 #处理关联规则
-dealWithRules <- function(support=0.2,confidence=0.3,minlen=2){
+dealWithRules <- function(support=0.5,confidence=0.3,minlen=2){
   rules <- getRules(support,confidence,minlen)
   writeData(rules,"achivement_rules")#
   paintScatterPlot(rules,"Scatter_rules")
@@ -45,7 +53,7 @@ dealWithRules <- function(support=0.2,confidence=0.3,minlen=2){
 }
 
 #'获取频繁项集
-getFreqItemSet <- function(support=0.1,minlen=2){
+getFreqItemSet <- function(support=0.5,minlen=2){
   wdata <- getDataSource()
   wdata.eclat <- eclat(wdata,parameter = list(
     support=support,
@@ -54,7 +62,7 @@ getFreqItemSet <- function(support=0.1,minlen=2){
 }
 
 #'处理频繁项集
-dealWithFreqItemSet <- function(support=0.2,minlen=2){
+dealWithFreqItemSet <- function(support=0.5,minlen=2){
   freqItemSet <- getFreqItemSet(support,minlen)
   writeData(freqItemSet,"achivement_freqItemSet")#
   paintScatterPlot(freqItemSet,"Scatter_freqItemSet")
@@ -120,7 +128,7 @@ paintBarGraph <- function(subject,grade){
 
 #'绘制每个科目的层次等级
 parintEveryClassByLevel <- function(){
-  wdata <- read.csv(getFilePath("achivement2"),header = TRUE,fileEncoding="utf-8",encoding="utf-8")
+  wdata <- read.csv(getFilePath("achivement2"),header = FALSE,fileEncoding="utf-8",encoding="utf-8")
   #统计每一列包含1的个数和包含2的个数和包含3的个数
   size <- length(wdata)
   result <- data.frame()
@@ -159,6 +167,7 @@ parintEveryClassByLevel <- function(){
 paintMultiLevel <- function(m){
   png(filename=paste(getImgPath(),"各科成绩水平分布.png",sep=""),width=1000,height=500)
   subject <- c("A","B","C","D","E","F","G","H","R","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","AA")
+  #subject <- getAllSubject()
   barplot(height=m,names.arg = subject,main="各科成绩水平分布",col = c("red","green","blue"))
   dev.off()
 }
@@ -172,16 +181,27 @@ getItemsCount <- function(support,confidence=0.3,minlen=2){
   return (length(w))
 }
 getDataSourceToPaintLineGraph <- function(){
-  sRange <- c(0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7)
-  result <- c()
+  sRange <- c(0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7)
+  result1 <- c() #统计置信度=0.3
+  result2 <- c()#置信度=0.5
+  result3 <- c()#置信度=0.7
   for(r in sRange){
-    result <- append(result,c(getItemsCount(r)))
+    result1 <- append(result1,c(getItemsCount(r,0.3)))
   }
-  paintLineGraph(y=result,x=sRange)
+  for(r in sRange){
+    result2 <- append(result2,c(getItemsCount(r,0.7)))
+  }
+  for(r in sRange){
+    result3 <- append(result3,c(getItemsCount(r,0.8)))
+  }
+  paintLineGraph(y1=result1,y2=result2,y3=result3,x=sRange)
 }
-paintLineGraph <- function(y,x){
-  png(filename=paste(getImgPath(),"无时间下关联规则数目对比图.png",sep=""),width=1000,height=500)
-  plot(x = x,type="b",y=y)
+paintLineGraph <- function(y1,y2,y3,x){
+  png(filename=paste(getImgPath(),"关联规则数目对比图.png",sep=""),width=1000,height=500)
+  plot(x = x,y=y1,type="b",col="red",lty=1)
+  lines(x=x,y=y2,type="b",col="green",lty=1)
+  lines(x=x,y=y3,type="b",col="blue",lty=1)
+  legend(legend=c("置信度:0.3","置信度:0.7","置信度:0.8"),col=c("red","green","blue"),x=0.6,y=2500,lty=1)
   dev.off()
 }
 

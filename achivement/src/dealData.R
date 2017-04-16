@@ -79,7 +79,7 @@ filterData <- function(wdata){
   return (wdata)
 }
 
-achivement <- read.csv(getFilePath("achivement"),header=TRUE,fileEncoding="utf-8",encoding="utf-8")
+achivement <- read.csv(getFilePath("achivement"),header=FALSE,fileEncoding="utf-8",encoding="utf-8")
 #achivement <- filterData(achivement)
 size <- length(achivement)
 result <- do.call(rbind,lapply(achivement[,1],makeLevel,numConvertToColName(1)))
